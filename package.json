@@ -1,0 +1,49 @@
+{
+  "name": "graph-builder",
+  "version": "1.0.0",
+  "description": "Constructor for buildings and manipulating graph ",
+  "keywords": [
+    "d3",
+    "graph",
+    "react"
+  ],
+  "main": "public/bundle.js",
+  "author": "Karl denchiklut@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/denchiklut/graph-builder.git"
+  },
+  "dependencies": {
+    "react-d3-tree": "^1.12.2",
+    "uuid": "^3.3.3"
+  },
+  "scripts": {
+    "start": "styleguidist server",
+    "build": "BABEL_ENV=production webpack --progress --profile --colors -p",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "@babel/plugin-transform-runtime": "7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "acorn": "^6.3.0",
+    "acorn-jsx": "^5.0.2",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "node-sass": "^4.12.0",
+    "prop-types": "^15.7.2",
+    "react-styleguidist": "^9.1.16",
+    "sass-loader": "^7.2.0",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.40.0",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0",
+    "classnames": "^2.2.6",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  }
+}
