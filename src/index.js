@@ -4,7 +4,7 @@ import Tree from 'react-d3-tree';
 import uuid from 'uuid';
 import cn from 'classnames';
 
-import { color, clearGraph, remove, cut } from "./utils";
+import { color, clearGraph, remove, cut, copy, paste } from "./utils";
 
 import './index.css';
 
@@ -63,6 +63,24 @@ class GraphBuilder extends Component {
             },
         ],
         selected: [],
+    };
+
+    copyBranch = () => {
+        const { selected } = this.state;
+
+        const copied = copy(selected[0]);
+        this.colorizeNode(copied.newSelected, "#ff8e53", "#f57100")
+
+        this.setState({ copied: copied.data })
+
+    };
+
+    pasteBranch = () => {
+        const { data, selected, copied } = this.state;
+        const pastedData = paste(data[0], selected, copied);
+
+        this.clear();
+        this.setState({ selected: [], data: [pastedData] });
     };
 
     addNode = nodeData => {
@@ -217,6 +235,8 @@ class GraphBuilder extends Component {
                 <button onClick={ this.insertNode }>insert</button>
                 <button onClick={ this.removeNode }>remove</button>
                 <button onClick={ this.cutNode }>cut</button>
+                <button onClick={ this.copyBranch }>Copy branch</button>
+                <button onClick={ this.pasteBranch }>Paste branch</button>
             </div>
     )
         ;

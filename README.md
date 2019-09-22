@@ -5,22 +5,16 @@ MbxPlaces is a simple address suggester based on MapBox API
 ## Usage example
 
 ```js
-<MbxPlaces 
-    limit={ 10 }
-    onSelect={ address => console.log(address) }
-    apiKey="YOUR_API_KEY"
+```js
+<GraphBuilder />
+```
+```js
+<GraphBuilder
+    onNodeCLick={ node => console.log(node) }
+    onAddNode={ node => console.log(node) }
 />
 ```
 
-#### Search by region (bbox)
-```js
-<MbxPlaces 
-    limit={ 10 }
-    placeholder="Search some address"
-    onSelect={ address => console.log(address) }
-    bbox={ [-79.76194404,40.47739894,-71.79556945,45.01586104] }
-    apiKey="YOUR_API_KEY"
-/>
 ```
 
 ## props
