@@ -25,7 +25,7 @@ export const color = (searchId, data, fill, stroke) => {
     }
 
     if (data.children) {
-        for (i = 0; i < data.children.length; i ++) {
+        for (i = 0; i < data.children.length; i++) {
             currentChild = data.children[i];
             color(searchId, currentChild, fill, stroke);
         }
@@ -49,7 +49,7 @@ export const clearGraph = data => {
     }
 
     if (data.children) {
-        for (i = 0; i < data.children.length; i ++) {
+        for (i = 0; i < data.children.length; i++) {
             currentChild = data.children[i];
             clearGraph(currentChild);
         }
@@ -170,8 +170,8 @@ export const cut = (searched, graphData) => {
             result = cut(searched, currentChild);
 
             if (result.status) {
-                currentParent.children.map((item, idx) => item.unique === searched.unique ? currentParent.children.splice(idx, 1) : item)
-                currentParent.children.push(...searched.children)
+                currentParent.children.map((item, idx) => item.unique === searched.unique ? currentParent.children.splice(idx, 1) : item);
+                currentParent.children.push(...searched.children);
 
                 removeTrash(graphData.children)
             }
@@ -189,7 +189,7 @@ export const copy = (data) => {
     let newSelected = [];
 
     if (Object.keys(data).length === 0) {
-        alert("Сначала виделите узел в графе")
+        alert("Сначала виделите узел в графе");
         return true
     }
 
@@ -206,7 +206,7 @@ export const copy = (data) => {
         delete(newData.y);
 
         if (newData.children)  {
-            for (i = 0; i < newData.children.length; i ++) {
+            for (i = 0; i < newData.children.length; i++) {
                 currentChild = newData.children[i];
                 clrData(currentChild);
             }

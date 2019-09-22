@@ -125,7 +125,6 @@ class GraphBuilder extends Component {
     colorizeNode = (nodesSelected, fill="#ca2750", stroke="#f50057") => {
         const { data } = this.state;
         const searchIds = nodesSelected.map(node => node.unique);
-
         const coloredData =  searchIds.map(searchId => color(searchId, data[0], fill, stroke));
 
         this.setState({ data: coloredData });
