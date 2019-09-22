@@ -58,6 +58,39 @@ export const clearGraph = data => {
     return data;
 };
 
+/**
+ * This function add node
+ */
+export const addNode = (selected, graphData) => {
+    let added = [];
+
+    const add = (searched, data) => {
+        let i, currentChild;
+
+        if (searched.unique === data.unique) {
+            data.children.push(
+                {
+                    name: '5',
+                    unique: uuid.v4(),
+                    children: []
+                });
+
+            added.push(data.children[0]);
+        } else {
+            for (i = 0; i < data.children.length; i++) {
+                currentChild = data.children[i];
+                add(searched, currentChild);
+            }
+        }
+
+        return data ;
+    };
+
+    const data = selected.map(item => add(item, graphData));
+
+    return { added, data };
+};
+
 
 /**
  * This function remove node from graph
@@ -76,6 +109,43 @@ export const remove = (searchId, data) => {
     }
 
     return data
+};
+
+
+/**
+ * This function insert node to graph
+ */
+export const insertNode = (selected, graphData) => {
+    let inserted = [];
+
+    const insert = (searched, graphData) => {
+        let i, currentChild;
+
+        if (searched.unique === graphData.unique) {
+            const oldChildren = graphData.children ? graphData.children.slice(): [];
+            graphData.children = [];
+
+            graphData.children.push(
+                {
+                    name:     'insert',
+                    unique:   uuid.v4(),
+                    children: [...oldChildren]
+                })
+
+            inserted.push(graphData.children[0])
+
+        } else {
+            for (i = 0; i < graphData.children.length; i++) {
+                currentChild = graphData.children[i];
+                insert(searched, currentChild);
+            }
+
+            return graphData;
+        }
+    };
+    const data = selected.map(item => insert(item, graphData));
+
+    return { inserted, data };
 };
 
 

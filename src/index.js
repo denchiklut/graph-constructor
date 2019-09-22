@@ -4,7 +4,7 @@ import Tree from 'react-d3-tree';
 import uuid from 'uuid';
 import cn from 'classnames';
 
-import { color, clearGraph, remove, cut, copy, paste } from "./utils";
+import { color, clearGraph, remove, cut, copy, paste, addNode, insertNode } from "./utils";
 
 import './index.css';
 
@@ -67,111 +67,53 @@ class GraphBuilder extends Component {
 
     copyBranch = () => {
         const { selected } = this.state;
-
         const copied = copy(selected[0]);
-        this.colorizeNode(copied.newSelected, "#ff8e53", "#f57100")
 
-        this.setState({ copied: copied.data })
-
+        this.colorizeNode(copied.newSelected, "#ff8e53", "#f57100");
+        this.setState({ copied: copied.data });
     };
 
     pasteBranch = () => {
         const { data, selected, copied } = this.state;
         const pastedData = paste(data[0], selected, copied);
 
-        this.clear();
         this.setState({ selected: [], data: [pastedData] });
+        this.clear();
     };
 
     addNode = nodeData => {
         const { data, selected } = this.state;
-        let added = [];
-
-        const add = (searched, graphData) => {
-            let i, currentChild;
-
-            if (searched.unique === graphData.unique) {
-                graphData.children.push(
-                    {
-                        name: '5',
-                        unique: uuid.v4(),
-                        children: []
-                    });
-
-                added.push(graphData.children[0]);
-            } else {
-                for (i = 0; i < graphData.children.length; i++) {
-                    currentChild = graphData.children[i];
-                    add(searched, currentChild);
-                }
-            }
-
-            return graphData ;
-        };
-
-        const updatedData = selected.map(item => add(item, data[0]));
+        const updateData = addNode(selected, data[0]);
         this.clear();
 
-        this.setState({ selected: added, data: updatedData }, () => this.colorizeNode(this.state.selected));
-
-        this.props.onAddNode(added, updatedData)
-    }
+        this.setState({ selected: updateData.added, data: updateData.data }, () => this.colorizeNode(this.state.selected));
+        this.props.onAddNode(updateData.added, updateData.data)
+    };
 
     insertNode = nodeData => {
         const { data, selected } = this.state;
-        let inserted = [];
-
-        const insert = (searched, graphData) => {
-            let i, currentChild;
-
-            if (searched.unique === graphData.unique) {
-                const oldChildren = graphData.children ? graphData.children.slice(): [];
-                graphData.children = [];
-
-                graphData.children.push(
-                    {
-                        name:     'insert',
-                        unique:   uuid.v4(),
-                        children: [...oldChildren]
-                    })
-
-                inserted.push(graphData.children[0])
-
-            } else {
-                for (i = 0; i < graphData.children.length; i++) {
-                    currentChild = graphData.children[i];
-                    insert(searched, currentChild);
-                }
-
-                return graphData;
-            }
-        };
-
-        const updatedData = selected.map(item => insert(item, data[0]));
+        const updateData = insertNode(selected, data[0]);
         this.clear();
 
-        this.setState({ selected: inserted, data: updatedData }, () => this.colorizeNode(this.state.selected))
-
-        // this.props.onAddNode(inserted, updatedData)
-    }
+        this.setState({ selected: updateData.inserted, data: updateData.data }, () => this.colorizeNode(this.state.selected))
+        this.props.onAddNode(updateData.inserted, updateData.data)
+    };
 
     removeNode = () => {
         const { data, selected } = this.state;
-
         const updatedData = selected.map(item => remove(item.unique, data[0]));
-        this.setState({ data: updatedData });
 
+        this.setState({ data: updatedData });
         // this.props.removeNode(this.state.selected[0], data)
-    }
+    };
 
     cutNode = () => {
         const { data, selected } = this.state;
-
         const updatedData = selected.map(item => cut(item, data[0]));
-        this.setState({ data: [updatedData[0].data] })
 
+        this.setState({ data: [updatedData[0].data] })
         // this.props.removeNode(this.state.selected[0], newData)
-    }
+    };
 
     clear = () => {
         const { data } = this.state;
