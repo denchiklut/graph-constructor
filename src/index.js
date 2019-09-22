@@ -137,14 +137,22 @@ class GraphBuilder extends Component {
             const { selected } = this.state;
 
             if (selected.find(item => item.unique === nodeKey.unique) !== undefined) {
-                this.setState({ selected: [
-                    ...selected.filter(item => item.unique !== nodeKey.unique)]
-                            .sort((a, b) => a.depth - b.depth)},
-                    () => this.colorizeNode(this.state.selected))
+                this.setState({ selected: [...selected.filter(item => item.unique !== nodeKey.unique)]
+                            .sort((a, b) => a.depth - b.depth) },
+                    () => {
+                        if (this.state.selected.length === 0) {
+                            this.colorizeNode([this.state.selected])
+                        } else {
+                            this.colorizeNode(this.state.selected)
+                        }
+
+                    }
+                )
             } else {
-                this.setState({ selected: [...selected, nodeKey]
-                            .sort((a, b) => a.depth - b.depth)},
-                    () => this.colorizeNode(this.state.selected))
+                this.setState({ selected: [...selected, nodeKey].
+                        sort((a, b) => a.depth - b.depth) },
+                    () => this.colorizeNode(this.state.selected)
+                );
             }
 
             return true;
