@@ -83,6 +83,7 @@ class GraphBuilder extends Component {
 
     addNode = nodeData => {
         const { data, selected } = this.state;
+        if (selected.length === 0) return alert('Выберите элемент');
         const updateData = addNode(selected, data[0], nodeData);
         this.clear();
 
@@ -92,6 +93,7 @@ class GraphBuilder extends Component {
 
     insertNode = nodeData => {
         const { data, selected } = this.state;
+        if (selected.length === 0) return alert('Выберите элемент');
         const updateData = insertNode(selected, data[0], nodeData);
         this.clear();
 
@@ -101,6 +103,7 @@ class GraphBuilder extends Component {
 
     removeNode = () => {
         const { data, selected } = this.state;
+        if (selected.length === 0) return alert('Выберите элемент');
         const updatedData = selected.map(item => remove(item.unique, data[0]));
 
         this.setState({ data: updatedData });
