@@ -5,21 +5,21 @@ GraphBuilder is a graph constructor
 ## Usage example
 
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 import GraphBuilder from 'graph-builder';
-class App extends React.Component {
+class App extends React {
     graphBuilder = React.createRef();
     
     add = () => {
         const name = prompt('Enter name', '');
         const data = { name };
-        this.graphBuilder.current.addNode(data)
+        this.graphBuilder.current.addNode(data);
     };
 
     insert = () => {
         const name = prompt('Enter name', '');
         const data = { name };
-        this.graphBuilder.current.insertNode(data)
+        this.graphBuilder.current.insertNode(data);
     };
 
     render() {
@@ -38,7 +38,7 @@ class App extends React.Component {
             </div>
         );
     }
-}; <App />
+};
 ```
 
 ## props
