@@ -1,7 +1,7 @@
 ## MbxPlaces
 
-MbxPlaces is a simple address suggester based on MapBox API
-![alt image](http://imgs-info.ru/2019/09/16/SNIMOK-EKRANA-2019-09-16-V-13.30.333367bb19f5bbac1c.png)
+GraphBuilder is a graph constructor 
+![alt image](http://imgs-info.ru/2019/09/24/SNIMOK-EKRANA-2019-09-23-V-23.34.37.png)
 ## Usage example
 
 ```js
