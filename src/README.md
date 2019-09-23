@@ -7,9 +7,8 @@ class App extends React.Component {
         this.graphBuilder = React.createRef();
         this.add = this.add.bind(this);
         this.insert = this.insert.bind(this);
-  }
+    };
     
-
     add() {
         const name = prompt('Enter name', '');
         const data = { name };
@@ -39,10 +38,4 @@ class App extends React.Component {
         );
     }
 }; <App />
-```
-```jsx
-<GraphBuilder
-    onNodeCLick={ node => console.log(node) }
-    onAddNode={ node => console.log(node) }
-/>
 ```
