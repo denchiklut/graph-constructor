@@ -83,7 +83,7 @@ class GraphBuilder extends Component {
 
     addNode = nodeData => {
         const { data, selected } = this.state;
-        const updateData = addNode(selected, data[0]);
+        const updateData = addNode(selected, data[0], nodeData);
         this.clear();
 
         this.setState({ selected: updateData.added, data: updateData.data }, () => this.colorizeNode(this.state.selected));
@@ -92,7 +92,7 @@ class GraphBuilder extends Component {
 
     insertNode = nodeData => {
         const { data, selected } = this.state;
-        const updateData = insertNode(selected, data[0]);
+        const updateData = insertNode(selected, data[0], nodeData);
         this.clear();
 
         this.setState({ selected: updateData.inserted, data: updateData.data }, () => this.colorizeNode(this.state.selected))

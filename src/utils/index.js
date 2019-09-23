@@ -10,7 +10,8 @@ export const color = (searchId, data, fill, stroke) => {
         if (data.nodeSvgShape) {
             data.nodeSvgShape.shapeProps = {
                 ...data.nodeSvgShape.shapeProps,
-                fill: fill
+                fill: fill,
+                stroke: stroke
             }
         } else {
             data.nodeSvgShape = {
@@ -61,7 +62,7 @@ export const clearGraph = data => {
 /**
  * This function add node
  */
-export const addNode = (selected, graphData) => {
+export const addNode = (selected, graphData, newData) => {
     let added = [];
 
     const add = (searched, data) => {
@@ -70,7 +71,7 @@ export const addNode = (selected, graphData) => {
         if (searched.unique === data.unique) {
             data.children.push(
                 {
-                    name: '5',
+                    name: newData.name,
                     unique: uuid.v4(),
                     children: []
                 });
@@ -115,7 +116,7 @@ export const remove = (searchId, data) => {
 /**
  * This function insert node to graph
  */
-export const insertNode = (selected, graphData) => {
+export const insertNode = (selected, graphData, newData) => {
     let inserted = [];
 
     const insert = (searched, graphData) => {
@@ -127,7 +128,7 @@ export const insertNode = (selected, graphData) => {
 
             graphData.children.push(
                 {
-                    name:     'insert',
+                    name: newData.name,
                     unique:   uuid.v4(),
                     children: [...oldChildren]
                 })
