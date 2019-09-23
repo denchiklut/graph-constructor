@@ -131,7 +131,7 @@ export const insertNode = (selected, graphData, newData) => {
                     name: newData.name,
                     unique:   uuid.v4(),
                     children: [...oldChildren]
-                })
+                });
 
             inserted.push(graphData.children[0])
 
@@ -140,9 +140,9 @@ export const insertNode = (selected, graphData, newData) => {
                 currentChild = graphData.children[i];
                 insert(searched, currentChild);
             }
-
-            return graphData;
         }
+
+        return graphData;
     };
     const data = selected.map(item => insert(item, graphData));
 
