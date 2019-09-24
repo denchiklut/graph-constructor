@@ -37,6 +37,22 @@ class GraphBuilder extends Component {
         orientation: PropTypes.string,
         collapsible: PropTypes.bool,
         styles: PropTypes.objectOf({}),
+        scale: PropTypes.objectOf({
+            min: PropTypes.number,
+            max: PropTypes.number
+        }),
+        textLayout: PropTypes.objectOf({
+            x: PropTypes.number,
+            y: PropTypes.number
+        }),
+        selectedColor: PropTypes.objectOf({
+            fill: PropTypes.string,
+            stroke: PropTypes.string
+        }),
+        copiedColor: PropTypes.objectOf({
+            fill: PropTypes.string,
+            stroke: PropTypes.string
+        }),
         data: PropTypes.array.isRequired,
         wrapperClassName: PropTypes.string
     };
@@ -45,7 +61,11 @@ class GraphBuilder extends Component {
         onNodeCLick: Function.prototype,
         onChange: Function.prototype,
         onError: Function.prototype,
-        styles: null,
+        styles: svgStyle,
+        scale: { min: 0.1, max: 8 },
+        textLayout: { x: 28, y: 0, },
+        selectedColor: { fill: '#ca2750', stroke: '#f50057' },
+        copiedColor: { fill: '#ff8e53', stroke: '#f57100' },
         collapsible: false,
         orientation: 'vertical',
         wrapperClassName: null
@@ -58,9 +78,10 @@ class GraphBuilder extends Component {
 
     copyBranch = () => {
         const { selected } = this.state;
+        const { copiedColor: { fill, stroke } } = this.props;
         const copied = copy(selected[0]);
 
-        this.colorizeNode(copied.newSelected, "#ff8e53", "#f57100");
+        this.colorizeNode(copied.newSelected, fill, stroke);
         this.setState({ copied: copied.data });
     };
 
@@ -76,25 +97,29 @@ class GraphBuilder extends Component {
 
     addNode = nodeData => {
         const { data, selected } = this.state;
+        const { selectedColor: { fill, stroke } } = this.props;
+
         if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
         const updateData = addNode(selected, data[0], nodeData);
         this.clear();
 
         this.setState({ selected: updateData.added, data: updateData.data }, () => {
             this.props.onChange({ type: 'ADD_NODE', temp: updateData.added, data: updateData.data });
-            this.colorizeNode(this.state.selected)
+            this.colorizeNode(this.state.selected, fill, stroke)
         });
     };
 
     insertNode = nodeData => {
         const { data, selected } = this.state;
+        const { selectedColor: { fill, stroke } } = this.props;
+
         if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
         const updateData = insertNode(selected, data[0], nodeData);
         this.clear();
 
         this.setState({ selected: updateData.inserted, data: updateData.data }, () => {
             this.props.onChange({ type: 'INSERT_NODE', temp: updateData.inserted, data: updateData.data });
-            this.colorizeNode(this.state.selected);
+            this.colorizeNode(this.state.selected, fill, stroke);
         });
     };
 
@@ -124,7 +149,7 @@ class GraphBuilder extends Component {
         this.setState({ data: [clearedData] })
     };
 
-    colorizeNode = (nodesSelected, fill="#ca2750", stroke="#f50057") => {
+    colorizeNode = (nodesSelected, fill, stroke) => {
         const { data } = this.state;
         const searchIds = nodesSelected.map(node => node.unique);
         const coloredData =  searchIds.map(searchId => color(searchId, data[0], fill, stroke));
@@ -134,6 +159,7 @@ class GraphBuilder extends Component {
 
     click = (nodeKey, e) => {
         this.clear();
+        const { selectedColor: { fill, stroke } } = this.props;
 
         if (e.altKey) {
             const { selected } = this.state;
@@ -143,9 +169,9 @@ class GraphBuilder extends Component {
                             .sort((a, b) => a.depth - b.depth) },
                     () => {
                         if (this.state.selected.length === 0) {
-                            this.colorizeNode([this.state.selected])
+                            this.colorizeNode([this.state.selected], fill, stroke)
                         } else {
-                            this.colorizeNode(this.state.selected)
+                            this.colorizeNode(this.state.selected, fill, stroke)
                         }
 
                     }
@@ -153,7 +179,7 @@ class GraphBuilder extends Component {
             } else {
                 this.setState({ selected: [...selected, nodeKey].
                         sort((a, b) => a.depth - b.depth) },
-                    () => this.colorizeNode(this.state.selected)
+                    () => this.colorizeNode(this.state.selected, fill, stroke)
                 );
             }
 
@@ -161,25 +187,25 @@ class GraphBuilder extends Component {
         }
 
         this.setState({ selected: [nodeKey] }, () => {
-            this.colorizeNode(this.state.selected);
+            this.colorizeNode(this.state.selected, fill, stroke);
             this.props.onNodeCLick(nodeKey);
         })
     };
 
     render() {
-        const { wrapperClassName, styles, orientation, collapsible } = this.props;
+        const { wrapperClassName, styles, orientation, collapsible, textLayout, scale } = this.props;
 
         return (
             <div className={ cn('wrapper', wrapperClassName) }>
                 <Tree
                     transitionDuration = { 0 }
+                    scaleExtent        = { scale }
+                    styles             = { styles }
+                    onClick            = { this.click }
+                    textLayout         = { textLayout }
                     collapsible        = { collapsible }
                     orientation        = { orientation }
-                    styles             = { styles || svgStyle }
-                    onClick            = { this.click }
-                    textLayout         = {{ x: 28, y: 0, }}
                     data               = { this.state.data }
-                    scaleExtent        = {{ min: 0.1, max: 8 }}
                 />
 
                 <button onClick={ this.addNode }>add</button>

@@ -49,7 +49,8 @@ class App extends React {
                     data={ data }
                     onChange={ this.update }
                     ref={ this.graphBuilder }
-                    onError={ e => console.error(e.type) }
+                    onError={ error => console.error(error) }
+                    onNodeCLick={ node => console.error(node) }
                 />
 
                 <button onClick={ this.add }>add</button>
@@ -66,13 +67,17 @@ class App extends React {
 
 ## props
 
-| Name                      | Type    | Default            | Description                        |
-| ------------------------- | ------- | ------------------ | ---------------------------------- |
-| data                      | array   |Required            |                                    |
-| onChange                  | func    |Function.prototype  |                                    |
-| onError                   | func    |Function.prototype  |                                    |
-| onNodeCLick               | func    |Function.prototype  |                                    |
-| styles                    | object  |null                |                                    |
-| orientation               | string  |vertical            |                                    |
-| wrapperClassName          | string  |null                |                                    |
+| Name                      | Type    | Default                               | Description                        |
+| ------------------------- | ------- | ------------------------------------- | ---------------------------------- |
+| data                      | array   |Required                               |                                    |
+| onChange                  | func    |Function.prototype                     |                                    |
+| onError                   | func    |Function.prototype                     |                                    |
+| onNodeCLick               | func    |Function.prototype                     |                                    |
+| styles                    | object  |null                                   |                                    |
+| orientation               | string  |vertical                               |                                    |
+| wrapperClassName          | string  |null                                   |                                    |
+| textLayout                | object  |{ x: 28, y: 0, }                       |                                    |
+| scale                     | object  |{ min: 0.1, max: 8 }                   |                                    |
+| selectedColor             | object  |{ fill: '#ca2750', stroke: '#f50057' } |                                    |
+| copiedColor               | object  |{ fill: '#ff8e53', stroke: '#f57100' } |                                    |
 
