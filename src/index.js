@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Tree from 'react-d3-tree';
-import uuid from 'uuid';
 import cn from 'classnames';
 
 import { color, clearGraph, remove, cut, copy, paste, addNode, insertNode } from "./utils";
@@ -33,53 +32,34 @@ const svgStyle = {
 class GraphBuilder extends Component {
     static propTypes = {
         onNodeCLick: PropTypes.func,
-        onAddNode: PropTypes.func,
-        onInsertNode: PropTypes.func,
-        onRemoveNode: PropTypes.func,
-        onCutNode: PropTypes.func,
-        onCopyTree: PropTypes.func,
-        onPasteTree: PropTypes.func,
+        onChange: PropTypes.func,
         onError: PropTypes.func,
         orientation: PropTypes.string,
         collapsible: PropTypes.bool,
         styles: PropTypes.objectOf({}),
+        data: PropTypes.array,
         wrapperClassName: PropTypes.string
     };
 
     static defaultProps = {
         onNodeCLick: Function.prototype,
-        onAddNode: Function.prototype,
-        onInsertNode: Function.prototype,
-        onRemoveNode: Function.prototype,
-        onCutNode: Function.prototype,
-        onCopyTree: Function.prototype,
-        onPasteTree: Function.prototype,
+        onChange: Function.prototype,
         onError: Function.prototype,
         styles: null,
         collapsible: false,
         orientation: 'vertical',
+        data: [
+            {
+                unique:'0',
+                name: 'Start',
+                children: [],
+            },
+        ],
         wrapperClassName: null
     };
 
     state = {
-        data: [
-            {
-                unique:'0',
-                name: '0',
-                children: [
-                    {
-                        unique: uuid.v4(),
-                        name: '1',
-                        children: []
-                    },
-                    {
-                        unique: uuid.v4(),
-                        name: '2',
-                        children: []
-                    },
-                ],
-            },
-        ],
+        data: this.props.data,
         selected: [],
     };
 
@@ -89,38 +69,40 @@ class GraphBuilder extends Component {
 
         this.colorizeNode(copied.newSelected, "#ff8e53", "#f57100");
         this.setState({ copied: copied.data });
-        // this.props.onCopyTree(copied.data)
     };
 
     pasteBranch = () => {
         const { data, selected, copied } = this.state;
         const pastedData = paste(data[0], selected, copied);
 
-        this.setState({ selected: [], data: [pastedData] },
-            () =>  {
-                this.props.onPasteTree([pastedData]);
-                this.clear();
-            });
+        this.setState({ selected: [], data: [pastedData] }, () =>  {
+            this.props.onChange({ type: 'CLONE_TREE', temp: copied, data: [pastedData] });
+            this.clear();
+        });
     };
 
     addNode = nodeData => {
         const { data, selected } = this.state;
-        if (selected.length === 0) return alert('Выберите элемент');
+        if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
         const updateData = addNode(selected, data[0], nodeData);
         this.clear();
 
-        this.setState({ selected: updateData.added, data: updateData.data }, () => this.colorizeNode(this.state.selected));
-        // this.props.onAddNode(updateData.added, updateData.data)
+        this.setState({ selected: updateData.added, data: updateData.data }, () => {
+            this.props.onChange({ type: 'ADD_NODE', temp: updateData.added, data: updateData.data });
+            this.colorizeNode(this.state.selected)
+        });
     };
 
     insertNode = nodeData => {
         const { data, selected } = this.state;
-        if (selected.length === 0) return alert('Выберите элемент');
+        if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
         const updateData = insertNode(selected, data[0], nodeData);
         this.clear();
 
-        this.setState({ selected: updateData.inserted, data: updateData.data }, () => this.colorizeNode(this.state.selected))
-        // this.props.onInsertNode(updateData.inserted, updateData.data)
+        this.setState({ selected: updateData.inserted, data: updateData.data }, () => {
+            this.props.onChange({ type: 'INSERT_NODE', temp: updateData.inserted, data: updateData.data });
+            this.colorizeNode(this.state.selected);
+        });
     };
 
     removeNode = () => {
@@ -128,16 +110,18 @@ class GraphBuilder extends Component {
         if (selected.length === 0) return alert('Выберите элемент');
         const updatedData = selected.map(item => remove(item.unique, data[0]));
 
-        this.setState({ data: updatedData });
-        // this.props.onRemoveNode(this.state.selected[0], data)
+        this.setState({ data: updatedData }, () => {
+            this.props.onChange({ type: 'REMOVE_NODE', temp: this.state.selected[0], data: updatedData })
+        });
     };
 
     cutNode = () => {
         const { data, selected } = this.state;
         const updatedData = selected.map(item => cut(item, data[0]));
 
-        this.setState({ data: [updatedData[0].data] })
-        // this.props.onCutNode(this.state.selected[0], newData)
+        this.setState({ data: [updatedData[0].data] }, () => {
+            this.props.onChange({ type: 'CUT_NODE', temp: selected, data: [updatedData[0].data] });
+        });
     };
 
     clear = () => {

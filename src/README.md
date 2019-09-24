@@ -28,6 +28,7 @@ class App extends React.Component {
             <div>
                 <GraphBuilder
                     ref={ this.graphBuilder }
+                    onChange={ e => console.log(e) }
                 />
 
                 <button onClick={ this.add }>add</button>
