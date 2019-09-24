@@ -37,7 +37,7 @@ class GraphBuilder extends Component {
         orientation: PropTypes.string,
         collapsible: PropTypes.bool,
         styles: PropTypes.objectOf({}),
-        data: PropTypes.array,
+        data: PropTypes.array.isRequired,
         wrapperClassName: PropTypes.string
     };
 
@@ -48,13 +48,6 @@ class GraphBuilder extends Component {
         styles: null,
         collapsible: false,
         orientation: 'vertical',
-        data: [
-            {
-                unique:'0',
-                name: 'Start',
-                children: [],
-            },
-        ],
         wrapperClassName: null
     };
 

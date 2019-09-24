@@ -11,6 +11,16 @@ import GraphBuilder from 'graph-builder';
 
 class App extends React {
     graphBuilder = React.createRef();
+
+    state = {
+        data: [
+            {
+                unique:'0',
+                name: 'Start',
+                children: [],
+            }
+        ],                
+    }
     
     add = () => {
         const name = prompt('Enter name', '');
@@ -24,11 +34,21 @@ class App extends React {
         this.graphBuilder.current.insertNode(data);
     };
 
+    update = ({ type, temp, data }) => {
+        // Here you can update date from the backend 
+        // console.log('Type of action', temp)
+        // console.log('Data that wad added or removed ', temp)
+        // console.log('Result data', data)
+        this.setState({ data })
+    }
+
     render() {
         return (
             <div>
                 <GraphBuilder
                     ref={ this.graphBuilder }
+                    onChange={ this.update }
+                    onError={ e => console.error(e.type) }
                 />
 
                 <button onClick={ this.add }>add</button>
