@@ -76,6 +76,13 @@ class GraphBuilder extends Component {
         selected: [],
     };
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.data !== this.props.data) {
+            this.setState({ data: this.props.data })
+        }
+    }
+
+
     copyBranch = () => {
         const { selected } = this.state;
         const { copiedColor: { fill, stroke } } = this.props;
