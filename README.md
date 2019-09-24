@@ -30,7 +30,7 @@ const svgStyle = {
     }
 };
 
-class App extends React {
+class App extends Component {
     graphConstructor = React.createRef();
 
     state = {
@@ -40,23 +40,23 @@ class App extends React {
                 name: 'Start',
                 children: [],
             }
-        ],                
-    }
-    
+        ],
+    };
+
     add = () => {
         const name = prompt('Enter name', '');
         const data = { name };
-        this.Constructor.current.addNode(data);
+        this.graphConstructor.current.addNode(data);
     };
 
     insert = () => {
         const name = prompt('Enter name', '');
         const data = { name };
-        this.Constructor.current.insertNode(data);
+        this.graphConstructor.current.insertNode(data);
     };
 
     update = ({ type, temp, data }) => {
-        // Here you can update date from the backend 
+        // Here you can update date from the backend
         // console.log('Type of action', temp)
         // console.log('Data that was added or removed ', temp)
         // console.log('Result data', data)
@@ -64,13 +64,15 @@ class App extends React {
     }
 
     render() {
+        const { data } = this.state;
+
         return (
             <div>
                 <GraphConstructor
                     data={ data }
                     styles={ svgStyle }
                     onChange={ this.update }
-                    ref={ this.Constructor }
+                    ref={ this.graphConstructor }
                     onError={ error => console.error(error) }
                     onNodeCLick={ node => console.error(node) }
                 />
@@ -85,6 +87,9 @@ class App extends React {
         );
     }
 };
+
+export default App;
+
 ```
 
 ## props
