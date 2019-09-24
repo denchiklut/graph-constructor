@@ -1,6 +1,6 @@
-## GraphBuilder
+## GraphConstructor
 
-GraphBuilder is a graph constructor 
+GraphConstructor is a graph constructor 
 ![alt image](http://imgs-info.ru/2019/09/24/SNIMOK-EKRANA-2019-09-23-V-23.34.37.png)
 ## Usage example
 ##### You can select multiple nodes with `alt` button pressed
