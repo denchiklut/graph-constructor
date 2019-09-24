@@ -58,7 +58,7 @@ class App extends React {
     update = ({ type, temp, data }) => {
         // Here you can update date from the backend 
         // console.log('Type of action', temp)
-        // console.log('Data that wad added or removed ', temp)
+        // console.log('Data that was added or removed ', temp)
         // console.log('Result data', data)
         this.setState({ data })
     }

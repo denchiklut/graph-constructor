@@ -5,7 +5,10 @@
   "keywords": [
     "d3",
     "graph",
-    "react"
+    "react",
+    "constructor",
+    "graph-builder",
+    "graph-constructor"
   ],
   "main": "public/bundle.js",
   "author": "Karl denchiklut@gmail.com",
@@ -15,12 +18,14 @@
   },
   "dependencies": {
     "react-d3-tree": "^1.12.2",
-    "uuid": "^3.3.3"
   },
   "scripts": {
     "start": "styleguidist server",
     "build": "BABEL_ENV=production webpack --progress --profile --colors -p",
     "prepublish": "npm run build"
+  },
+  "peerDependencies": {
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
