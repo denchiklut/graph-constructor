@@ -6,7 +6,7 @@ GraphBuilder is a graph constructor
 ##### You can select multiple nodes with `alt` button pressed
 ```jsx
 import React, { Component } from 'react';
-import GraphBuilder from 'graph-constructor';
+import GraphConstructor from 'graph-constructor';
 
 const svgStyle = {
     nodes: {
@@ -31,7 +31,7 @@ const svgStyle = {
 };
 
 class App extends React {
-    graphBuilder = React.createRef();
+    graphConstructor = React.createRef();
 
     state = {
         data: [
@@ -46,13 +46,13 @@ class App extends React {
     add = () => {
         const name = prompt('Enter name', '');
         const data = { name };
-        this.graphBuilder.current.addNode(data);
+        this.Constructor.current.addNode(data);
     };
 
     insert = () => {
         const name = prompt('Enter name', '');
         const data = { name };
-        this.graphBuilder.current.insertNode(data);
+        this.Constructor.current.insertNode(data);
     };
 
     update = ({ type, temp, data }) => {
@@ -66,21 +66,21 @@ class App extends React {
     render() {
         return (
             <div>
-                <GraphBuilder
+                <GraphConstructor
                     data={ data }
                     styles={ svgStyle }
                     onChange={ this.update }
-                    ref={ this.graphBuilder }
+                    ref={ this.Constructor }
                     onError={ error => console.error(error) }
                     onNodeCLick={ node => console.error(node) }
                 />
 
                 <button onClick={ this.add }>add</button>
                 <button onClick={ this.insert }>insert</button>
-                <button onClick={ () => this.graphBuilder.current.removeNode() }>remove</button>
-                <button onClick={ () => this.graphBuilder.current.cutNode() }>cut</button>
-                <button onClick={ () => this.graphBuilder.current.copyBranch() }>Copy branch</button>
-                <button onClick={ () => this.graphBuilder.current.pasteBranch() }>Paste branch</button>
+                <button onClick={ () => this.graphConstructor.current.removeNode() }>remove</button>
+                <button onClick={ () => this.graphConstructor.current.cutNode() }>cut</button>
+                <button onClick={ () => this.graphConstructor.current.copyBranch() }>Copy branch</button>
+                <button onClick={ () => this.graphConstructor.current.pasteBranch() }>Paste branch</button>
             </div>
         );
     }

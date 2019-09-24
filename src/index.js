@@ -29,7 +29,7 @@ const svgStyle = {
     }
 };
 
-class GraphBuilder extends Component {
+class GraphConstructor extends Component {
     static propTypes = {
         onNodeCLick: PropTypes.func,
         onChange: PropTypes.func,
@@ -226,4 +226,4 @@ class GraphBuilder extends Component {
     }
 }
 
-export default GraphBuilder;
+export default GraphConstructor;
