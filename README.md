@@ -8,6 +8,27 @@ GraphBuilder is a graph constructor
 import React, { Component } from 'react';
 import GraphBuilder from 'graph-builder';
 
+const svgStyle = {
+    nodes: {
+        node: {
+            circle: {
+                fill: "#a94690",
+                stroke: '#837086',
+                strokeWidth: 1,
+                transform: 'scale(2,2)'
+
+            }
+        },
+        leafNode: {
+            circle: {
+                fill: "#a94690",
+                stroke: '#837086',
+                strokeWidth: 1,
+                transform: 'scale(2,2)'
+            }
+        }
+    }
+};
 
 class App extends React {
     graphBuilder = React.createRef();
@@ -47,6 +68,7 @@ class App extends React {
             <div>
                 <GraphBuilder
                     data={ data }
+                    styles={ svgStyle }
                     onChange={ this.update }
                     ref={ this.graphBuilder }
                     onError={ error => console.error(error) }

@@ -82,7 +82,6 @@ class GraphBuilder extends Component {
         }
     }
 
-
     copyBranch = () => {
         const { selected } = this.state;
         const { copiedColor: { fill, stroke } } = this.props;
