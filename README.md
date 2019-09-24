@@ -7,6 +7,8 @@ GraphBuilder is a graph constructor
 ```jsx
 import React, { Component } from 'react';
 import GraphBuilder from 'graph-builder';
+
+
 class App extends React {
     graphBuilder = React.createRef();
     

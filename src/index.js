@@ -34,12 +34,30 @@ class GraphBuilder extends Component {
     static propTypes = {
         onNodeCLick: PropTypes.func,
         onAddNode: PropTypes.func,
+        onInsertNode: PropTypes.func,
+        onRemoveNode: PropTypes.func,
+        onCutNode: PropTypes.func,
+        onCopyTree: PropTypes.func,
+        onPasteTree: PropTypes.func,
+        onError: PropTypes.func,
+        orientation: PropTypes.string,
+        collapsible: PropTypes.bool,
+        styles: PropTypes.objectOf({}),
         wrapperClassName: PropTypes.string
     };
 
     static defaultProps = {
         onNodeCLick: Function.prototype,
         onAddNode: Function.prototype,
+        onInsertNode: Function.prototype,
+        onRemoveNode: Function.prototype,
+        onCutNode: Function.prototype,
+        onCopyTree: Function.prototype,
+        onPasteTree: Function.prototype,
+        onError: Function.prototype,
+        styles: null,
+        collapsible: false,
+        orientation: 'vertical',
         wrapperClassName: null
     };
 
@@ -71,14 +89,18 @@ class GraphBuilder extends Component {
 
         this.colorizeNode(copied.newSelected, "#ff8e53", "#f57100");
         this.setState({ copied: copied.data });
+        // this.props.onCopyTree(copied.data)
     };
 
     pasteBranch = () => {
         const { data, selected, copied } = this.state;
         const pastedData = paste(data[0], selected, copied);
 
-        this.setState({ selected: [], data: [pastedData] });
-        this.clear();
+        this.setState({ selected: [], data: [pastedData] },
+            () =>  {
+                this.props.onPasteTree([pastedData]);
+                this.clear();
+            });
     };
 
     addNode = nodeData => {
@@ -88,7 +110,7 @@ class GraphBuilder extends Component {
         this.clear();
 
         this.setState({ selected: updateData.added, data: updateData.data }, () => this.colorizeNode(this.state.selected));
-        this.props.onAddNode(updateData.added, updateData.data)
+        // this.props.onAddNode(updateData.added, updateData.data)
     };
 
     insertNode = nodeData => {
@@ -98,7 +120,7 @@ class GraphBuilder extends Component {
         this.clear();
 
         this.setState({ selected: updateData.inserted, data: updateData.data }, () => this.colorizeNode(this.state.selected))
-        this.props.onAddNode(updateData.inserted, updateData.data)
+        // this.props.onInsertNode(updateData.inserted, updateData.data)
     };
 
     removeNode = () => {
@@ -107,7 +129,7 @@ class GraphBuilder extends Component {
         const updatedData = selected.map(item => remove(item.unique, data[0]));
 
         this.setState({ data: updatedData });
-        // this.props.removeNode(this.state.selected[0], data)
+        // this.props.onRemoveNode(this.state.selected[0], data)
     };
 
     cutNode = () => {
@@ -115,7 +137,7 @@ class GraphBuilder extends Component {
         const updatedData = selected.map(item => cut(item, data[0]));
 
         this.setState({ data: [updatedData[0].data] })
-        // this.props.removeNode(this.state.selected[0], newData)
+        // this.props.onCutNode(this.state.selected[0], newData)
     };
 
     clear = () => {
@@ -168,15 +190,15 @@ class GraphBuilder extends Component {
     };
 
     render() {
-        const { wrapperClassName } = this.props;
+        const { wrapperClassName, styles, orientation, collapsible } = this.props;
 
         return (
             <div className={ cn('wrapper', wrapperClassName) }>
                 <Tree
                     transitionDuration = { 0 }
-                    collapsible        = { false }
-                    orientation        = "vertical"
-                    styles             = { svgStyle }
+                    collapsible        = { collapsible }
+                    orientation        = { orientation }
+                    styles             = { styles || svgStyle }
                     onClick            = { this.click }
                     textLayout         = {{ x: 28, y: 0, }}
                     data               = { this.state.data }
