@@ -48,8 +48,8 @@ class App extends React.Component {
             <div>
                 <GraphBuilder
                     data={ data }
-                    ref={ this.graphBuilder }
                     onChange={ this.update }
+                    ref={ this.graphBuilder }
                     onError={ e => console.error(e.type) }
                 />
 

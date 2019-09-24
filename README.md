@@ -46,8 +46,9 @@ class App extends React {
         return (
             <div>
                 <GraphBuilder
-                    ref={ this.graphBuilder }
+                    data={ data }
                     onChange={ this.update }
+                    ref={ this.graphBuilder }
                     onError={ e => console.error(e.type) }
                 />
 
@@ -65,7 +66,13 @@ class App extends React {
 
 ## props
 
-| Name                      | Type    | Default  | Description                        |
-| ------------------------- | ------- | -------- | ---------------------------------- |
-|                           |         |          |                                    |
+| Name                      | Type    | Default            | Description                        |
+| ------------------------- | ------- | ------------------ | ---------------------------------- |
+| data                      | array   |Required            |                                    |
+| onChange                  | func    |Function.prototype  |                                    |
+| onError                   | func    |Function.prototype  |                                    |
+| onNodeCLick               | func    |Function.prototype  |                                    |
+| styles                    | object  |null                |                                    |
+| orientation               | string  |vertical            |                                    |
+| wrapperClassName          | string  |null                |                                    |
 
