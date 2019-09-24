@@ -6,7 +6,7 @@ GraphBuilder is a graph constructor
 ##### You can select multiple nodes with `alt` button pressed
 ```jsx
 import React, { Component } from 'react';
-import GraphBuilder from 'graph-builder';
+import GraphBuilder from 'graph-constructor';
 
 const svgStyle = {
     nodes: {
