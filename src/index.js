@@ -205,10 +205,11 @@ class GraphConstructor extends Component {
                     transitionDuration = { 0 }
                     nodeSvgShape={ nodeSvgShape }
                     scaleExtent        = { scale }
+                    collapsible        = { false }
                     styles             = { styles }
+                    pathFunc           = { pathFunc }
                     onClick            = { this.click }
                     textLayout         = { textLayout }
-                    pathFunc           = { pathFunc }
                     orientation        = { orientation }
                     data               = { this.state.data }
                 />
