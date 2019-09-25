@@ -2,6 +2,15 @@
 import React, { Component } from 'react';
 import GraphConstructor from './index.js';
 
+const rect = {
+    shape: 'rect',
+    shapeProps: {
+        width: 20,
+        height: 20,
+        y: -10,
+        x: -10,
+    }
+}
 
 class App extends Component {
     constructor() {
@@ -51,6 +60,7 @@ class App extends Component {
                     onChange={ this.update }
                     ref={ this.graphConstructor }
                     onError={ error => console.error(error) }
+                    nodeSvgShape={ rect }
                 />
 
                 <button onClick={ this.add }>add</button>

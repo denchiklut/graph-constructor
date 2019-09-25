@@ -30,6 +30,16 @@ const svgStyle = {
     }
 };
 
+const rect = {
+    shape: 'rect',
+    shapeProps: {
+        width: 20,
+        height: 20,
+        y: -10,
+        x: -10,
+    }
+}
+
 class App extends Component {
     graphConstructor = React.createRef();
 
@@ -40,13 +50,7 @@ class App extends Component {
                 name: 'Start',
                 children: [],
             }
-        ],
-        nodeSvgShape: {
-            shape: 'circle',
-            shapeProps: {
-                r: 10,
-            }
-        }
+        ]
     };
 
     add = () => {
@@ -70,7 +74,7 @@ class App extends Component {
     }
 
     render() {
-        const { data, nodeSvgShape } = this.state;
+        const { data } = this.state;
 
         return (
             <div>
@@ -78,9 +82,8 @@ class App extends Component {
                     data={ data }
                     styles={ svgStyle }
                     onChange={ this.update }
+                    nodeSvgShape={ rect }
                     ref={ this.graphConstructor }
-                    nodeSvgShape={ nodeSvgShape }
-                    onError={ error => console.error(error) }
                     onNodeCLick={ node => console.log(node) }
                 />
 
@@ -114,6 +117,7 @@ export default App;
 | scale                     | object  |{ min: 0.1, max: 8 }                   |
 | selectedColor             | object  |{ fill: '#ca2750', stroke: '#f50057' } |
 | copiedColor               | object  |{ fill: '#ff8e53', stroke: '#f57100' } |
+| nodeSvgShape              | object  |Circle object look at Readme.md        |
 
 
 ## onChange
