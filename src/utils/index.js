@@ -3,7 +3,7 @@ import uuid from "uuid";
 /**
  * This function colorized node by searchId
  */
-export const color = (searchId, data, fill, stroke) => {
+export const color = (searchId, data, svgShape, fill, stroke) => {
     let i, currentChild;
 
     if (searchId === data.unique) {
@@ -14,13 +14,12 @@ export const color = (searchId, data, fill, stroke) => {
                 stroke: stroke
             }
         } else {
-            data.nodeSvgShape = {
-                shape: 'circle',
+            data.nodeSvgShape = { ...svgShape,
                 shapeProps: {
-                    r: 10,
+                    ...svgShape.shapeProps,
                     fill: fill,
-                    stroke: stroke
-                },
+                    stroke: stroke,
+                }
             }
         }
     }
@@ -28,7 +27,7 @@ export const color = (searchId, data, fill, stroke) => {
     if (data.children) {
         for (i = 0; i < data.children.length; i++) {
             currentChild = data.children[i];
-            color(searchId, currentChild, fill, stroke);
+            color(searchId, currentChild, svgShape, fill, stroke);
         }
     }
 
@@ -39,13 +38,21 @@ export const color = (searchId, data, fill, stroke) => {
 /**
  * This function reset all colors
  */
-export const clearGraph = data => {
+export const clearGraph = (data, svgShape) => {
     let currentChild, i;
 
     if (data.nodeSvgShape) {
         if (data.nodeSvgShape.shapeProps) {
             data.nodeSvgShape.shapeProps.fill = "#a94690";
             data.nodeSvgShape.shapeProps.stroke = "#837086";
+        }
+    } else {
+        data.nodeSvgShape = { ...svgShape,
+            shapeProps: {
+                ...svgShape.shapeProps,
+                fill: '#a94690',
+                stroke: '#837086',
+            }
         }
     }
 
@@ -62,7 +69,7 @@ export const clearGraph = data => {
 /**
  * This function add node
  */
-export const addNode = (selected, graphData, newData) => {
+export const addNode = (selected, graphData, newData, svgShape) => {
     let added = [];
 
     const add = (searched, data) => {
@@ -73,6 +80,7 @@ export const addNode = (selected, graphData, newData) => {
                 {
                     name: newData.name,
                     unique: uuid.v4(),
+                    nodeSvgShape: { ...svgShape },
                     children: []
                 });
 
@@ -116,7 +124,7 @@ export const remove = (searchId, data) => {
 /**
  * This function insert node to graph
  */
-export const insertNode = (selected, graphData, newData) => {
+export const insertNode = (selected, graphData, newData, svgShape) => {
     let inserted = [];
 
     const insert = (searched, graphData) => {
@@ -130,6 +138,7 @@ export const insertNode = (selected, graphData, newData) => {
                 {
                     name: newData.name,
                     unique:   uuid.v4(),
+                    nodeSvgShape: { ...svgShape },
                     children: [...oldChildren]
                 });
 

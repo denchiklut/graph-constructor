@@ -29,6 +29,13 @@ const svgStyle = {
     }
 };
 
+const circle = {
+    shape: 'circle',
+    shapeProps: {
+        r: 10,
+    }
+};
+
 class GraphConstructor extends Component {
     static propTypes = {
         onNodeCLick: PropTypes.func,
@@ -37,22 +44,11 @@ class GraphConstructor extends Component {
         orientation: PropTypes.string,
         collapsible: PropTypes.bool,
         styles: PropTypes.objectOf({}),
-        scale: PropTypes.objectOf({
-            min: PropTypes.number,
-            max: PropTypes.number
-        }),
-        textLayout: PropTypes.objectOf({
-            x: PropTypes.number,
-            y: PropTypes.number
-        }),
-        selectedColor: PropTypes.objectOf({
-            fill: PropTypes.string,
-            stroke: PropTypes.string
-        }),
-        copiedColor: PropTypes.objectOf({
-            fill: PropTypes.string,
-            stroke: PropTypes.string
-        }),
+        nodeSvgShape: PropTypes.objectOf({}),
+        scale: PropTypes.objectOf({}),
+        textLayout: PropTypes.objectOf({}),
+        selectedColor: PropTypes.objectOf({}),
+        copiedColor: PropTypes.objectOf({}),
         data: PropTypes.array.isRequired,
         wrapperClassName: PropTypes.string
     };
@@ -66,6 +62,7 @@ class GraphConstructor extends Component {
         textLayout: { x: 28, y: 0, },
         selectedColor: { fill: '#ca2750', stroke: '#f50057' },
         copiedColor: { fill: '#ff8e53', stroke: '#f57100' },
+        nodeSvgShape: circle,
         collapsible: false,
         orientation: 'vertical',
         wrapperClassName: null
@@ -73,7 +70,7 @@ class GraphConstructor extends Component {
 
     state = {
         data: this.props.data,
-        selected: [],
+        selected: []
     };
 
     componentDidUpdate(prevProps) {
@@ -103,10 +100,10 @@ class GraphConstructor extends Component {
 
     addNode = nodeData => {
         const { data, selected } = this.state;
-        const { selectedColor: { fill, stroke } } = this.props;
+        const { nodeSvgShape, selectedColor: { fill, stroke } } = this.props;
 
         if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
-        const updateData = addNode(selected, data[0], nodeData);
+        const updateData = addNode(selected, data[0], nodeData, nodeSvgShape);
         this.clear();
 
         this.setState({ selected: updateData.added, data: updateData.data }, () => {
@@ -117,10 +114,10 @@ class GraphConstructor extends Component {
 
     insertNode = nodeData => {
         const { data, selected } = this.state;
-        const { selectedColor: { fill, stroke } } = this.props;
+        const { nodeSvgShape, selectedColor: { fill, stroke } } = this.props;
 
         if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
-        const updateData = insertNode(selected, data[0], nodeData);
+        const updateData = insertNode(selected, data[0], nodeData, nodeSvgShape);
         this.clear();
 
         this.setState({ selected: updateData.inserted, data: updateData.data }, () => {
@@ -150,15 +147,17 @@ class GraphConstructor extends Component {
 
     clear = () => {
         const { data } = this.state;
-        const clearedData = clearGraph(data[0]);
+        const { nodeSvgShape } = this.props;
+        const clearedData = clearGraph(data[0], nodeSvgShape);
 
         this.setState({ data: [clearedData] })
     };
 
     colorizeNode = (nodesSelected, fill, stroke) => {
         const { data } = this.state;
+        const { nodeSvgShape } = this.props;
         const searchIds = nodesSelected.map(node => node.unique);
-        const coloredData =  searchIds.map(searchId => color(searchId, data[0], fill, stroke));
+        const coloredData =  searchIds.map(searchId => color(searchId, data[0], nodeSvgShape, fill, stroke));
 
         this.setState({ data: coloredData });
     };
@@ -199,12 +198,13 @@ class GraphConstructor extends Component {
     };
 
     render() {
-        const { wrapperClassName, styles, orientation, collapsible, textLayout, scale } = this.props;
+        const { wrapperClassName, styles, orientation, collapsible, textLayout, scale, nodeSvgShape } = this.props;
 
         return (
             <div className={ cn('wrapper', wrapperClassName) }>
                 <Tree
                     transitionDuration = { 0 }
+                    nodeSvgShape={ nodeSvgShape }
                     scaleExtent        = { scale }
                     styles             = { styles }
                     onClick            = { this.click }

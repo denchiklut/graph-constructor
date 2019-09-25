@@ -1,6 +1,6 @@
 {
   "name": "graph-constructor",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Constructor for buildings and manipulating graph ",
   "keywords": [
     "d3",

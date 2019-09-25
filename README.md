@@ -41,6 +41,12 @@ class App extends Component {
                 children: [],
             }
         ],
+        nodeSvgShape: {
+            shape: 'circle',
+            shapeProps: {
+                r: 10,
+            }
+        }
     };
 
     add = () => {
@@ -64,7 +70,7 @@ class App extends Component {
     }
 
     render() {
-        const { data } = this.state;
+        const { data, nodeSvgShape } = this.state;
 
         return (
             <div>
@@ -73,8 +79,9 @@ class App extends Component {
                     styles={ svgStyle }
                     onChange={ this.update }
                     ref={ this.graphConstructor }
+                    nodeSvgShape={ nodeSvgShape }
                     onError={ error => console.error(error) }
-                    onNodeCLick={ node => console.error(node) }
+                    onNodeCLick={ node => console.log(node) }
                 />
 
                 <button onClick={ this.add }>add</button>
@@ -126,7 +133,10 @@ Whenever one of these actions occurs, the `onChange` function is called with 3 a
 
 
 ## Shapes
-By default all nodes in graph are circle. To change there shapes you should pass an object `nodeSvgShape`.
+By default all nodes in graph are circle. 
+Pass `nodeSvgShape` prop to GraphConstructor to specify what shapes of nodes do you want
+
+To change shapes in a specific node you should pass an object `nodeSvgShape`.
 This is a square example!
 ```
 {
@@ -144,5 +154,49 @@ This is a square example!
             y: -10,
         }
     }
+}
+```
+
+All shapes 
+
+##### circle
+```
+{
+    shape: 'circle',
+    shapeProps: {
+        r: 10,
+    },
+}
+```
+
+
+##### rect
+```
+{
+    shape: 'rect',
+    shapeProps: {
+        width: 20,
+        height: 20,
+        y: -10,
+        x: -10,
+    }
+}
+```
+
+##### ellipse
+```
+{
+    shape: 'ellipse',
+    shapeProps: {
+        rx: 10,
+        ry: 20,
+    }
+}
+```
+
+##### none
+```
+{
+    shape: 'none'
 }
 ```
