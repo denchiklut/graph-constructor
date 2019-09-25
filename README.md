@@ -14,17 +14,14 @@ const svgStyle = {
             circle: {
                 fill: "#a94690",
                 stroke: '#837086',
-                strokeWidth: 1,
-                transform: 'scale(2,2)'
-
+                strokeWidth: 1
             }
         },
         leafNode: {
             circle: {
                 fill: "#a94690",
                 stroke: '#837086',
-                strokeWidth: 1,
-                transform: 'scale(2,2)'
+                strokeWidth: 1
             }
         }
     }
@@ -33,10 +30,10 @@ const svgStyle = {
 const rect = {
     shape: 'rect',
     shapeProps: {
-        width: 20,
-        height: 20,
-        y: -10,
-        x: -10,
+        width: 40,
+        height: 40,
+        y: -20,
+        x: -20,
     }
 }
 
@@ -168,7 +165,7 @@ All shapes
 {
     shape: 'circle',
     shapeProps: {
-        r: 10,
+        r: 20,
     },
 }
 ```
@@ -179,10 +176,10 @@ All shapes
 {
     shape: 'rect',
     shapeProps: {
-        width: 20,
-        height: 20,
-        y: -10,
-        x: -10,
+        width: 40,
+        height: 40,
+        y: -20,
+        x: -20,
     }
 }
 ```
@@ -192,8 +189,8 @@ All shapes
 {
     shape: 'ellipse',
     shapeProps: {
-        rx: 10,
-        ry: 20,
+        rx: 20,
+        ry: 40,
     }
 }
 ```
