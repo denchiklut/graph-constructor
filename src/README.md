@@ -60,7 +60,7 @@ class App extends Component {
                     onChange={ this.update }
                     ref={ this.graphConstructor }
                     onError={ error => console.error(error) }
-                    //nodeSvgShape={ rect }
+                    nodeSvgShape={ rect }
                 />
 
                 <button onClick={ this.add }>add</button>
