@@ -38,20 +38,20 @@ export const color = (searchId, data, svgShape, fill, stroke) => {
 /**
  * This function reset all colors
  */
-export const clearGraph = (data, svgShape) => {
+export const clearGraph = (data, svgShape, fill, stroke) => {
     let currentChild, i;
 
     if (data.nodeSvgShape) {
         if (data.nodeSvgShape.shapeProps) {
-            data.nodeSvgShape.shapeProps.fill = "#a94690";
-            data.nodeSvgShape.shapeProps.stroke = "#837086";
+            data.nodeSvgShape.shapeProps.fill = fill;
+            data.nodeSvgShape.shapeProps.stroke = stroke;
         }
     } else {
         data.nodeSvgShape = { ...svgShape,
             shapeProps: {
                 ...svgShape.shapeProps,
-                fill: '#a94690',
-                stroke: '#837086',
+                fill: fill,
+                stroke: stroke,
             }
         }
     }
@@ -59,7 +59,7 @@ export const clearGraph = (data, svgShape) => {
     if (data.children) {
         for (i = 0; i < data.children.length; i++) {
             currentChild = data.children[i];
-            clearGraph(currentChild);
+            clearGraph(currentChild, svgShape, fill, stroke);
         }
     }
 
@@ -233,13 +233,7 @@ export const copy = (data) => {
  * This function paste graph
  */
 export const paste = (data, selected, copied) => {
-    if (Object.keys(copied).length === 0) {
-        alert("Сначала склонируйте ветку");
-        return []
-    } else {
-        selected.map(item => addGraph(item, data, copied))
-    }
-
+    selected.map(item => addGraph(item, data, copied));
     return data;
 };
 

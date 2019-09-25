@@ -5,10 +5,10 @@ import GraphConstructor from './index.js';
 const rect = {
     shape: 'rect',
     shapeProps: {
-        width: 20,
-        height: 20,
-        y: -10,
-        x: -10,
+        width: 40,
+        height: 40,
+        y: -20,
+        x: -20,
     }
 }
 
@@ -60,7 +60,7 @@ class App extends Component {
                     onChange={ this.update }
                     ref={ this.graphConstructor }
                     onError={ error => console.error(error) }
-                    nodeSvgShape={ rect }
+                    //nodeSvgShape={ rect }
                 />
 
                 <button onClick={ this.add }>add</button>

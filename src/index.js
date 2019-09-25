@@ -13,8 +13,7 @@ const svgStyle = {
             circle: {
                 fill: "#a94690",
                 stroke: '#837086',
-                strokeWidth: 1,
-                transform: 'scale(2,2)'
+                strokeWidth: 1
 
             }
         },
@@ -22,8 +21,7 @@ const svgStyle = {
             circle: {
                 fill: "#a94690",
                 stroke: '#837086',
-                strokeWidth: 1,
-                transform: 'scale(2,2)'
+                strokeWidth: 1
             }
         }
     }
@@ -32,7 +30,7 @@ const svgStyle = {
 const circle = {
     shape: 'circle',
     shapeProps: {
-        r: 10,
+        r: 20,
     }
 };
 
@@ -147,9 +145,10 @@ class GraphConstructor extends Component {
 
     clear = () => {
         const { data } = this.state;
-        const { nodeSvgShape } = this.props;
-        const clearedData = clearGraph(data[0], nodeSvgShape);
+        const { nodeSvgShape, styles } = this.props;
+        const { fill, stroke } = styles.nodes.node.circle;
 
+        const clearedData = clearGraph(data[0], nodeSvgShape, fill, stroke);
         this.setState({ data: [clearedData] })
     };
 
