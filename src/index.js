@@ -40,7 +40,6 @@ class GraphConstructor extends Component {
         onChange: PropTypes.func,
         onError: PropTypes.func,
         orientation: PropTypes.string,
-        collapsible: PropTypes.bool,
         styles: PropTypes.objectOf({}),
         nodeSvgShape: PropTypes.objectOf({}),
         scale: PropTypes.objectOf({}),
@@ -48,6 +47,7 @@ class GraphConstructor extends Component {
         selectedColor: PropTypes.objectOf({}),
         copiedColor: PropTypes.objectOf({}),
         data: PropTypes.array.isRequired,
+        pathFunc: PropTypes.string,
         wrapperClassName: PropTypes.string
     };
 
@@ -61,8 +61,8 @@ class GraphConstructor extends Component {
         selectedColor: { fill: '#ca2750', stroke: '#f50057' },
         copiedColor: { fill: '#ff8e53', stroke: '#f57100' },
         nodeSvgShape: circle,
-        collapsible: false,
         orientation: 'vertical',
+        pathFunc: 'diagonal',
         wrapperClassName: null
     };
 
@@ -197,7 +197,7 @@ class GraphConstructor extends Component {
     };
 
     render() {
-        const { wrapperClassName, styles, orientation, collapsible, textLayout, scale, nodeSvgShape } = this.props;
+        const { wrapperClassName, styles, orientation, pathFunc, textLayout, scale, nodeSvgShape } = this.props;
 
         return (
             <div className={ cn('wrapper', wrapperClassName) }>
@@ -208,17 +208,10 @@ class GraphConstructor extends Component {
                     styles             = { styles }
                     onClick            = { this.click }
                     textLayout         = { textLayout }
-                    collapsible        = { collapsible }
+                    pathFunc           = { pathFunc }
                     orientation        = { orientation }
                     data               = { this.state.data }
                 />
-
-                <button onClick={ this.addNode }>add</button>
-                <button onClick={ this.insertNode }>insert</button>
-                <button onClick={ this.removeNode }>remove</button>
-                <button onClick={ this.cutNode }>cut</button>
-                <button onClick={ this.copyBranch }>Copy branch</button>
-                <button onClick={ this.pasteBranch }>Paste branch</button>
             </div>
     )
         ;

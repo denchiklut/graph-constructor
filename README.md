@@ -109,13 +109,13 @@ export default App;
 | onNodeCLick               | func    |Function.prototype                     |
 | styles                    | object  |null                                   |
 | orientation               | string  |vertical                               |
+| pathFunc                  | string  |diagonal                               |
 | wrapperClassName          | string  |null                                   |
 | textLayout                | object  |{ x: 28, y: 0, }                       |
 | scale                     | object  |{ min: 0.1, max: 8 }                   |
 | selectedColor             | object  |{ fill: '#ca2750', stroke: '#f50057' } |
 | copiedColor               | object  |{ fill: '#ff8e53', stroke: '#f57100' } |
 | nodeSvgShape              | object  |Circle object look at Readme.md        |
-
 
 ## onChange
 `onChange` is a function that will be call when you will manipulate with graph data
@@ -131,7 +131,6 @@ Whenever one of these actions occurs, the `onChange` function is called with 3 a
 1. `type`: `CLONE_TREE`, `ADD_NODE`, `INSERT_NODE`, `REMOVE_NODE`, `CUT_NODE`
 2. `temp`: data that was added or removed or was cloned depends on action occurred
 3. `data`: this is current graph data 
-
 
 ## Shapes
 By default all nodes in graph are circle. 
@@ -201,3 +200,6 @@ All shapes
     shape: 'none'
 }
 ```
+
+## pathFunc
+pathFunc can be `'diagonal'` | `'elbow'` | `'straight'`
