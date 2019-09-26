@@ -40,12 +40,12 @@ class GraphConstructor extends Component {
         onChange: PropTypes.func,
         onError: PropTypes.func,
         orientation: PropTypes.string,
-        styles: PropTypes.objectOf({}),
-        nodeSvgShape: PropTypes.objectOf({}),
-        scale: PropTypes.objectOf({}),
-        textLayout: PropTypes.objectOf({}),
-        selectedColor: PropTypes.objectOf({}),
-        copiedColor: PropTypes.objectOf({}),
+        styles: PropTypes.object,
+        nodeSvgShape: PropTypes.object,
+        scale: PropTypes.object,
+        textLayout: PropTypes.object,
+        selectedColor: PropTypes.object,
+        copiedColor: PropTypes.object,
         data: PropTypes.array.isRequired,
         pathFunc: PropTypes.string,
         wrapperClassName: PropTypes.string
@@ -138,7 +138,7 @@ class GraphConstructor extends Component {
         const { data, selected } = this.state;
         const updatedData = selected.map(item => cut(item, data[0]));
 
-        this.setState({ data: [updatedData[0].data] }, () => {
+        this.setState({ data: [updatedData[0].data], selected: [] }, () => {
             this.props.onChange({ type: 'CUT_NODE', temp: selected, data: [updatedData[0].data] });
         });
     };
@@ -192,6 +192,7 @@ class GraphConstructor extends Component {
 
         this.setState({ selected: [nodeKey] }, () => {
             this.colorizeNode(this.state.selected, fill, stroke);
+            this.props.onChange({ type: 'NODE_CLICK', temp: nodeKey, data: this.state.data });
             this.props.onNodeCLick(nodeKey);
         })
     };

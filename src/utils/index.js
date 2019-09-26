@@ -84,7 +84,7 @@ export const addNode = (selected, graphData, newData, svgShape) => {
                     children: []
                 });
 
-            added.push(data.children[0]);
+            added.push(data.children[data.children.length - 1]);
         } else {
             for (i = 0; i < data.children.length; i++) {
                 currentChild = data.children[i];
