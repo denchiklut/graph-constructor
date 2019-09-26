@@ -128,7 +128,7 @@ export default App;
 5. You can clone some piece of tree and paste in another place of graph 
 
 Whenever one of these actions occurs, the `onChange` function is called with 3 arguments.
-1. `type`: `CLONE_TREE`, `ADD_NODE`, `INSERT_NODE`, `REMOVE_NODE`, `CUT_NODE`
+1. `type`: `CLONE_TREE`, `ADD_NODE`, `INSERT_NODE`, `REMOVE_NODE`, `CUT_NODE`, `NODE_CLICK`
 2. `temp`: data that was added or removed or was cloned depends on action occurred
 3. `data`: this is current graph data 
 
