@@ -195,12 +195,11 @@ export const cut = (searched, graphData) => {
 /**
  * This function copy graph
  */
-export const copy = (data) => {
+export const copy = (data, onError) => {
     let newSelected = [];
 
     if (Object.keys(data).length === 0) {
-        alert("Сначала виделите узел в графе");
-        return true
+        return onError({ type: 'Node does not selected' });
     }
 
     const clrData = newData => {

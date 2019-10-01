@@ -79,8 +79,8 @@ class GraphConstructor extends Component {
 
     copyBranch = () => {
         const { selected } = this.state;
-        const { copiedColor: { fill, stroke } } = this.props;
-        const copied = copy(selected[0]);
+        const { onError, copiedColor: { fill, stroke } } = this.props;
+        const copied = copy(selected[0], onError);
 
         this.colorizeNode(copied.newSelected, fill, stroke);
         this.setState({ copied: copied.data });
@@ -88,12 +88,16 @@ class GraphConstructor extends Component {
 
     pasteBranch = () => {
         const { data, selected, copied } = this.state;
-        const pastedData = paste(data[0], selected, copied);
+        if (copied) {
+            const pastedData = paste(data[0], selected, copied);
 
-        this.setState({ selected: [], data: [pastedData] }, () =>  {
-            this.props.onChange({ type: 'CLONE_TREE', temp: copied, data: [pastedData] });
-            this.clear();
-        });
+            this.setState({ selected: [], data: [pastedData] }, () =>  {
+                this.props.onChange({ type: 'CLONE_TREE', temp: copied, data: [pastedData] });
+                this.clear();
+            });
+        } else {
+            this.props.onError({ type: 'You have to copy graph first' });
+        }
     };
 
     addNode = nodeData => {
