@@ -80,6 +80,9 @@ class GraphConstructor extends Component {
     copyBranch = () => {
         const { selected } = this.state;
         const { onError, copiedColor: { fill, stroke } } = this.props;
+
+        if (selected.length === 0) return onError({ type: 'Node does not selected' });
+
         const copied = copy(selected[0], onError);
 
         this.colorizeNode(copied.newSelected, fill, stroke);
@@ -88,16 +91,14 @@ class GraphConstructor extends Component {
 
     pasteBranch = () => {
         const { data, selected, copied } = this.state;
-        if (copied) {
-            const pastedData = paste(data[0], selected, copied);
+        if (!copied) return  this.props.onError({ type: 'You have to copy graph first' });
 
-            this.setState({ selected: [], data: [pastedData] }, () =>  {
-                this.props.onChange({ type: 'CLONE_TREE', temp: copied, data: [pastedData] });
-                this.clear();
-            });
-        } else {
-            this.props.onError({ type: 'You have to copy graph first' });
-        }
+        const pastedData = paste(data[0], selected, copied);
+
+        this.setState({ selected: [], data: [pastedData] }, () =>  {
+            this.props.onChange({ type: 'CLONE_TREE', temp: copied, data: [pastedData] });
+            this.clear();
+        });
     };
 
     addNode = nodeData => {
@@ -140,6 +141,7 @@ class GraphConstructor extends Component {
 
     cutNode = () => {
         const { data, selected } = this.state;
+        if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
         const updatedData = selected.map(item => cut(item, data[0]));
 
         this.setState({ data: [updatedData[0].data], selected: [] }, () => {
