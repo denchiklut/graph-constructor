@@ -130,7 +130,7 @@ class GraphConstructor extends Component {
 
     removeNode = () => {
         const { data, selected } = this.state;
-        if (selected.length === 0) return alert('Выберите элемент');
+        if (selected.length === 0) return this.props.onError({ type: 'Node does not selected' });
         const updatedData = selected.map(item => remove(item.unique, data[0]));
 
         this.setState({ data: updatedData }, () => {
